@@ -51,11 +51,11 @@ carol	172.17.0.4
 
 Execute the following commands inside each container to download and run the genesis setup script:
 
-    ```bash
-    apt update && apt install nano && apt install wget
-	wget -O ~/0l_testnet_setup.sh https://github.com/AlanYoon71/0L_Network/raw/main/0l_testnet_genesis_docker.sh \
-	&& chmod +x ~/0l_testnet_genesis_docker.sh && ./0l_testnet_genesis_docker.sh
-	```
+```
+apt update && apt install nano && apt install wget
+wget -O ~/0l_testnet_setup.sh https://github.com/AlanYoon71/0L_Network/raw/main/0l_testnet_genesis_docker.sh \
+&& chmod +x ~/0l_testnet_genesis_docker.sh && ./0l_testnet_genesis_docker.sh
+```
 After running the script and reaching the completion stage, if you're in the Docker container `alice`,
 you should enter the current server's IP address when prompted for the VFN IP.
 The VFN will be installed at the host level outside the container and connected to container `alice`.
@@ -65,25 +65,25 @@ If prompted from other Docker containers, simply press Enter.
 
 1. Install `tmux` inside each container if not installed:
 
-    ```bash
+    ```
     apt update && apt install tmux -y
     ```
 
 2. Start a `tmux` session inside each container:
 
-    ```bash
+    ```
     tmux new -s node
     ```
 
 3. Within the `tmux` session, run the `libra node` command:
 
-    ```bash
+    ```
     libra node
     ```
 	
 ## Step 5: Check Syncing and Voting status
 
-```bash
+```
 echo ""; curl -s localhost:9101/metrics | grep diem_state_sync_version{; \
 echo -e "\nVote Progress:"; cat ~/.libra/data/secure-data.json | jq .safety_data.value.last_voted_round
 ```
@@ -91,19 +91,19 @@ If the sync and vote counts keep increasing, the blockchain is running successfu
 To exit the container(change to background), press Ctrl+p followed by Ctrl+q.
 Don't type exit, then session process will be stopped.
 
-## Step 5: Running the Libra VFN and Validators(outside the container and local network)
+## Step 6: Running the Libra VFN and Validators(outside the container and local network)
 
 Execute the following commands inside each container to download and run the post-genesis node setup script:
 
 1. Firewall setting:
 
-    ```bash
+    ```
     sudo ufw allow 6180; sudo ufw allow 6181; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
     ```
 
 2. download and run the post-genesis node setup script:
 
-    ```bash
+    ```
     apt update && apt install nano && apt install wget
 	wget -O ~/0l_testnet_setup.sh https://github.com/AlanYoon71/0L_Network/raw/main/0l_testnet_setup.sh \
 	&& chmod +x ~/0l_testnet_setup.sh && ./0l_testnet_setup.sh
