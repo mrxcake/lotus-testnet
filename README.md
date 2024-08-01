@@ -47,7 +47,7 @@ bob	172.17.0.3
 carol	172.17.0.4
 ```
 
-## Step 3: Download and Execute the Setup Script(in Docker container)
+## Step 3: Download and Execute the Genesis Setup Script(in Docker container)
 
 Execute the following commands inside each container to download and run the genesis setup script:
 
@@ -93,7 +93,7 @@ Don't type exit, then session process will be stopped.
 
 ## Step 5: Running the Libra VFN(outside the container)
 
-Execute the following commands inside each container to download and run the setup script:
+Execute the following commands inside each container to download and run the post-genesis setup script:
 
 1. Firewall setting:
 
