@@ -91,7 +91,7 @@ If the sync and vote counts keep increasing, the blockchain is running successfu
 To exit the container(change to background), press Ctrl+p followed by Ctrl+q.
 Don't type exit, then session process will be stopped.
 
-## Step 5: Running the Libra VFN(outside the container)
+## Step 5: Running the Libra VFN and Validators(outside the container)
 
 Execute the following commands inside each container to download and run the post-genesis node setup script:
 
