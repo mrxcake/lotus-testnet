@@ -49,7 +49,7 @@ carol	172.17.0.4
 
 ## Step 3: Download and Execute the Setup Script(in Docker container)
 
-Execute the following commands inside each container to download and run the setup script:
+Execute the following commands inside each container to download and run the genesis setup script:
 
     ```bash
     apt update && apt install nano && apt install wget
@@ -101,7 +101,7 @@ Execute the following commands inside each container to download and run the set
     sudo ufw allow 6180; sudo ufw allow 6181; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
     ```
 
-2. download and run the setup script:
+2. download and run the post-genesis setup script:
 
     ```bash
     apt update && apt install nano && apt install wget
