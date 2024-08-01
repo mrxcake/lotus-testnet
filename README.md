@@ -43,7 +43,7 @@ Enter each container using the `docker attach <docker_name>` command and check t
 Then, create a `testnet_iplist.txt` file in the home directory (`~/`) of each container as shown below.
 ```
 alice	172.17.0.2
-bob		172.17.0.3
+bob	172.17.0.3
 carol	172.17.0.4
 ```
 
