@@ -93,7 +93,7 @@ Don't type exit, then session process will be stopped.
 
 ## Step 5: Running the Libra VFN(outside the container)
 
-Execute the following commands inside each container to download and run the post-genesis setup script:
+Execute the following commands inside each container to download and run the post-genesis node setup script:
 
 1. Firewall setting:
 
@@ -101,7 +101,7 @@ Execute the following commands inside each container to download and run the pos
     sudo ufw allow 6180; sudo ufw allow 6181; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
     ```
 
-2. download and run the post-genesis setup script:
+2. download and run the post-genesis node setup script:
 
     ```bash
     apt update && apt install nano && apt install wget
