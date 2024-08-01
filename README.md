@@ -34,7 +34,7 @@ Run the following commands to start the required Docker containers:
 
 ```
 mkdir -p alice bob carol
-sudo docker run -d -it --name alice -v /root/alice:/root -p 6180:6180 -p 3000:3000 ubuntu:20.04 /bin/bash
+sudo docker run -d -it --name alice -v /root/alice:/root -p 6180:6180 -p 6181:6181 -p 3000:3000 ubuntu:20.04 /bin/bash
 sudo docker run -d -it --name bob -v /root/bob:/root ubuntu:20.04 /bin/bash
 sudo docker run -d -it --name carol -v /root/carol:/root ubuntu:20.04 /bin/bash
 ```
