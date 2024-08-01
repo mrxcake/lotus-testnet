@@ -98,7 +98,7 @@ Execute the following commands inside each container to download and run the pos
 1. Firewall setting:
 
     ```
-    sudo ufw allow 6180; sudo ufw allow 6181; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
+    sudo ufw allow 6180; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
     ```
 
 2. download and run the post-genesis node setup script:
