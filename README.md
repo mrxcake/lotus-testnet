@@ -95,7 +95,7 @@ Don't type exit, then session process will be stopped.
 
 Execute the following commands inside each container to download and run the post-genesis node setup script:
 
-1. Firewall setting:
+1. Firewall setting for VFN:
 
     ```
     sudo ufw allow 6180; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
