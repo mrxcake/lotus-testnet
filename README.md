@@ -93,7 +93,9 @@ Don't type exit, then session process will be stopped.
 
 ## Step 6: Running the Libra VFN and Validators(outside the container and local network)
 
-Execute the following commands inside each container to download and run the post-genesis node setup script:
+If you are installing VFN or Validator on another machine, there is no need to install Docker at all.
+However, you can still install VFN on a machine with 3 containers installed.
+To do so, execute the following commands outside each container to download and run the post-genesis node setup script:
 
 1. Firewall setting for VFN:
 
@@ -101,7 +103,7 @@ Execute the following commands inside each container to download and run the pos
     sudo ufw allow 6180; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
     ```
 	
-2. Firewall setting for Validator:
+2. Firewall setting for post-genesis Validator:
 
     ```
     sudo ufw allow 6180; sudo ufw allow 6181; sudo ufw allow 3000; 
