@@ -116,7 +116,7 @@ To do so, execute the following commands outside each container to download and 
 	wget -O ~/0l_testnet_setup.sh https://github.com/AlanYoon71/0L_Network/raw/main/0l_testnet_setup.sh \
 	&& chmod +x ~/0l_testnet_setup.sh && ./0l_testnet_setup.sh
 	```
-	At the final stage of the script, if you're in the VFN for `alice`, enter the mnemonic for 'alice', 
+	At the final stage of the script, if you're in the VFN for `alice`, enter the mnemonic for `alice`, 
 	the Docker account where the VFN is connected.
 	https://github.com/0LNetworkCommunity/libra-framework/raw/921d38b750b6a9529df9f0c7f88f5227bfc6a0de/util/fixtures/mnemonic/alice.mnem
 	If you're in the genesis-post validator, enter the mnemonic for your own account. That's all.
