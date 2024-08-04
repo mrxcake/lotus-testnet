@@ -121,4 +121,4 @@ To do so, execute the following commands outside each container to download and 
 	https://github.com/0LNetworkCommunity/libra-framework/raw/921d38b750b6a9529df9f0c7f88f5227bfc6a0de/util/fixtures/mnemonic/alice.mnem
 	If you're in the genesis-post validator, enter the mnemonic for your own account. That's all.
 	
-	Carpe Diem! ✊🔆
+	Carpe Diem, Carpe Libra!✊🔆
