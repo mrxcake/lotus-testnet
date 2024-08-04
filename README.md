@@ -53,7 +53,7 @@ Execute the following commands inside each container to download and run the gen
 
 ```
 apt update && apt install nano && apt install wget
-wget -O ~/0l_testnet_setup.sh https://github.com/AlanYoon71/0L_Network/raw/main/0l_testnet_genesis_docker.sh \
+wget -O ~/0l_testnet_genesis_docker.sh https://github.com/AlanYoon71/0L_Network/raw/main/0l_testnet_genesis_docker.sh \
 && chmod +x ~/0l_testnet_genesis_docker.sh && ./0l_testnet_genesis_docker.sh
 ```
 After running the script and reaching the completion stage, if you're in the Docker container `alice`,
