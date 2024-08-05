@@ -33,8 +33,8 @@ echo ""
 cd ~
 apt update
 apt install sudo
-sudo apt update
-sudo apt install -y nano wget git
+apt update
+apt install -y nano wget git
 if [[ -f $HOME/github_token.txt ]]
 then
     :
@@ -62,16 +62,16 @@ else
     git clone https://github.com/0LNetworkCommunity/libra-framework
     cd ~/libra-framework
 fi
-sudo apt update && sudo apt install -y nano bc tmux jq build-essential cmake clang llvm libgmp-dev pkg-config libssl-dev lld libpq-dev net-tools
+apt update && apt install -y nano bc tmux jq build-essential cmake clang llvm libgmp-dev pkg-config libssl-dev lld libpq-dev net-tools
 rustup default 1.74.0
 sed -i 's/1.70.0/1.74.0/g' ~/libra-framework/rust-toolchain
-sudo apt install curl; curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y; source ~/.bashrc
+apt install curl; curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y; source ~/.bashrc
 echo "Updating cargo-nextest.."
 sleep 1
 export PATH="$HOME/.cargo/bin:$PATH"; rustup update; rustup default stable; cargo install cargo-nextest; cargo nextest --version
 echo "Checking and rebuilding packages.."
 sleep 1
-sudo apt install curl; curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y; source ~/.bashrc
+apt install curl; curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y; source ~/.bashrc
 
 echo ""
 echo "Input libra-framework release version(x.y.z)."
@@ -96,8 +96,8 @@ echo ""
 cd ~/libra-framework
 rustup default 1.74.0
 sed -i 's/1.70.0/1.74.0/g' ~/libra-framework/rust-toolchain
-sudo apt install make
-sudo rm -rf ~/.libra && mkdir ~/.libra && cd ~/libra-framework/tools/genesis && make install && source ~/.bashrc
+apt install make
+rm -rf ~/.libra && mkdir ~/.libra && cd ~/libra-framework/tools/genesis && make install && source ~/.bashrc
 echo ""
 cd ~
 echo "Updating cargo-nextest.."
@@ -116,10 +116,10 @@ echo -e "\e[1m\e[32m3. Generating account config files.\e[0m"
 
 sleep 2
 echo ""
-sudo rm -rf ~/.libra/data &> /dev/null
+rm -rf ~/.libra/data &> /dev/null
 mkdir ~/.libra &> /dev/null; mkdir ~/.libra/genesis &> /dev/null
-sudo cp -f ~/github_token.txt ~/.libra &> /dev/null
-sudo cp -f ~/testnet_iplist.txt ~/.libra &> /dev/null
+cp -f ~/github_token.txt ~/.libra &> /dev/null
+cp -f ~/testnet_iplist.txt ~/.libra &> /dev/null
 echo "export PATH=$PATH:$HOME/.cargo/bin" >> ~/.bashrc && . ~/.bashrc
 # echo "Do you want to generate new wallet? (y/n)"
 # read -p "y/n : " user_input
