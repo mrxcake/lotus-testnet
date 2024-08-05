@@ -41,7 +41,7 @@ sudo docker run -d -it --name carol -v /root/carol:/root ubuntu:20.04 /bin/bash
 ```
 
 Create testnet_iplist.txt for genesis members
-Enter each container using the `docker attach <docker_name>` command and check the internal IP with `hostname -I`.
+Enter each container using the `docker attach <docker_container_name>` command and check the internal IP with `hostname -I`.
 Then, create a `testnet_iplist.txt` file in the home directory (`~/`) of each container as shown below.
 
 ```
