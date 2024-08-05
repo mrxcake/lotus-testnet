@@ -49,12 +49,11 @@ else
     echo ""
 fi
 
-# content="alice    158.247.247.207
-# bob      172.17.0.3
-# carol    172.17.0.4
-# dave     172.17.0.5"
+content="alice    172.17.0.2
+bob      172.17.0.3
+carol    172.17.0.4"
 
-# echo "$content" > testnet_iplist.txt
+echo "$content" > testnet_iplist.txt
 
 if [ -d "$HOME/libra-framework" ]; then
     cd ~/libra-framework
