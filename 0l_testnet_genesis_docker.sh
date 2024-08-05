@@ -43,8 +43,6 @@ else
     echo ""
     echo "Input your github token."
     read -p "token : " token
-    echo ""
-    echo "Your github token is $token."
     echo $token > $HOME/github_token.txt
     echo ""
 fi
