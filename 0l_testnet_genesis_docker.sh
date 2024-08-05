@@ -40,21 +40,13 @@ then
     :
 else
     echo "github token is not found in $HOME directory."
-    while true; do
-        echo ""
-        echo "Input your github token."
-        read -p "token : " token
-        echo ""
-        echo "Your github token is $token."
-        echo ""
-        echo "Did you enter it correctly?(y/n)"
-        read -p "y/n : " user_input
-        if [[ $user_input == "y" ]]; then
-            echo ""
-            echo $token > $HOME/github_token.txt
-            break
-        fi
-    done
+    echo ""
+    echo "Input your github token."
+    read -p "token : " token
+    echo ""
+    echo "Your github token is $token."
+    echo $token > $HOME/github_token.txt
+    echo ""
 fi
 
 # content="alice    158.247.247.207
