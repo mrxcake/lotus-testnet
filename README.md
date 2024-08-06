@@ -36,13 +36,12 @@ or Option 2, where you download a container with a pre-built image.
 	1. Run Docker Containers
 
 	Run the following commands to start the required Docker containers:
-
-	```bash
+ ```bash
 	mkdir -p alice bob carol
 	sudo docker run -d -it --name alice -v /root/alice:/root -p 6180:6180 -p 3000:3000 ubuntu:20.04 /bin/bash
 	sudo docker run -d -it --name bob -v /root/bob:/root ubuntu:20.04 /bin/bash
 	sudo docker run -d -it --name carol -v /root/carol:/root ubuntu:20.04 /bin/bash
-	```
+```
 
 Create testnet_iplist.txt for genesis members
 Enter each container using the `docker attach <docker_container_name>` command and check the internal IP with `hostname -I`.
@@ -58,11 +57,11 @@ carol	172.17.0.4
 
 	Execute the following commands inside each container to download and run the genesis setup script:
 
-	```bash
+```bash
 	apt update && apt install nano && apt install wget
 	wget -O ~/0l_testnet_genesis_docker.sh https://github.com/AlanYoon71/OpenLibra_Testnet/raw/main/0l_testnet_genesis_docker.sh \
 	&& chmod +x ~/0l_testnet_genesis_docker.sh && ./0l_testnet_genesis_docker.sh
-	```
+```
 
 After running the script and reaching the completion stage, if you're in the Docker container `alice`,
 you should enter the current server's IP address when prompted for the VFN IP.
@@ -73,11 +72,11 @@ If prompted from other Docker containers, simply press Enter.
 
 	Attach Docker containers, start a `tmux` session and run the `libra node` command.
 	
-	```bash
+```bash
 	apt update && apt install tmux -y
 	tmux new -s node
 	libra node
-	```
+```
 
 ## Step 2(Option-2): Run Docker Containers with Pre-Built Images
 
@@ -85,25 +84,25 @@ If prompted from other Docker containers, simply press Enter.
 
 	Run the following commands to start the required Docker containers:
 
-	```bash
+```bash
 	docker run -d -it --name alice -p 6180:6180 -p 3000:3000 alanyoon/openlibra_testnet_genesis:alice_7.0.2
 	docker run -d -it --name bob alanyoon/openlibra_testnet_genesis:bob_7.0.2
 	docker run -d -it --name carol alanyoon/openlibra_testnet_genesis:carol_7.0.2
-	```
+```
 
 	2. Running the Libra Validator(in the Docker container)
 
 	Attach Docker containers, start a `tmux` session and run the `libra node` command.
 	
-	```bash
+```bash
 	docker attach <docker_container_name>
 	tmux new -s node
 	libra node
-	```
+```
 
 ## Step 3: Check Syncing and Voting status
 
-```
+```bash
 echo ""; curl -s localhost:9101/metrics | grep diem_state_sync_version{; \
 echo -e "\nVote Progress:"; cat ~/.libra/data/secure-data.json | jq .safety_data.value.last_voted_round
 ```
@@ -120,23 +119,23 @@ To do so, execute the following commands outside each container to download and 
 
 	1. Firewall setting for VFN:
 
-	```bash
+```bash
 	sudo ufw allow 6180; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
-	```
+```
 	
 	2. Firewall setting for post-genesis Validator:
 
-	```bash
+```bash
 	sudo ufw allow 6180; sudo ufw allow 6181; sudo ufw allow 3000; 
-	```
+```
 	
 	3. download and run the post-genesis node setup script:
 
-	```bash
+```bash
 	apt update && apt install nano && apt install wget
 	wget -O ~/0l_testnet_setup.sh https://github.com/AlanYoon71/OpenLibra_Testnet/raw/main/0l_testnet_setup.sh \
 	&& chmod +x ~/0l_testnet_setup.sh && ./0l_testnet_setup.sh
-	```
+```
 
 At the final stage of the script, if you're in the VFN for `alice`, enter the mnemonic for `alice`,
 the Docker account where the VFN is connected.
