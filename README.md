@@ -112,19 +112,19 @@ If the sync and vote counts keep increasing, the blockchain is running successfu
 To exit the container(change to background), press Ctrl+p followed by Ctrl+q.
 Don't type exit, then session process will be stopped.
 
-## Step 4: Running the Libra VFN and Validators(outside the container and local network)
+## Step 4: Running the Libra VFN and Validators(outside the container)
 
 If you are installing VFN or Validator on another machine, there is no need to install Docker at all.
 However, you can still install VFN on a machine with 3 containers installed.
 To do so, execute the following commands outside each container to download and run the post-genesis node setup script:
 
-1. Firewall setting for VFN:
+1. Firewall setting for VFN(in the genesis machine with 3 containers):
 
 ```bash
 sudo ufw allow 6180; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
 ```
 	
-2. Firewall setting for post-genesis Validator:
+2. Firewall setting for post-genesis Validator(in the another new machine):
 
 ```bash
 sudo ufw allow 6180; sudo ufw allow 6181; sudo ufw allow 3000; 
