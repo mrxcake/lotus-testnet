@@ -116,7 +116,8 @@ Don't type exit, then session process will be stopped.
 To monitor the node status more deeply in real-time, I recommend installing Prometheus + Grafana.
 There are already easy and excellent installation tutorials available, so refer to them.
 https://airy-antimatter-608.notion.site/0L-Network-testnet-6-Self-Hosted-Prometheus-Grafana-bb45a49c14344674a7fc98d1f8c5950e
-If the target node is running inside a Docker container, 
+Since port 3000 is already open for a container named `alice`, if you install the monitoring tool in container `alice`,
+it can be accessed via the machine's external `IP address:3000`. If the target node is running inside a Docker container, 
 you only need to modify some commands in the tutorial as follows.
 
 ```bash
