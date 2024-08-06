@@ -160,7 +160,8 @@ sleep 0.2
 cp ~/.libra/validator.yaml ~/.libra/validator.yaml.bak && sed -i '/seed_addrs:/{/seed_addrs: *{}/!{a\      493847429420549694a18a82bc9b1b1ce21948bbf1cd4c5cee9ece0fb8ead50a:\n      - "/ip4/158.247.247.207/tcp/6182/noise-ik/0x493847429420549694a18a82bc9b1b1ce21948bbf1cd4c5cee9ece0fb8ead50a/handshake/0"
 }}' ~/.libra/validator.yaml
 echo "~/.libra/validator.yaml updated with testnet seed."
-rm -rf $HOME/github_token.txt
+rm -rf /root/github_token.txt
+rm -rf /root/.libra/github_token.txt
 echo ""
 echo "Done."
 echo ""
