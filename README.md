@@ -112,6 +112,28 @@ If the sync and vote counts keep increasing, the blockchain is running successfu
 To exit the container(change to background), press Ctrl+p followed by Ctrl+q.
 Don't type exit, then session process will be stopped.
 
+
+To monitor the node status more deeply in real-time, I recommend installing Prometheus + Grafana.
+There are already easy and excellent installation tutorials available, so refer to them.
+https://airy-antimatter-608.notion.site/0L-Network-testnet-6-Self-Hosted-Prometheus-Grafana-bb45a49c14344674a7fc98d1f8c5950e
+If the target node is running inside a Docker container, 
+you only need to modify some commands in the tutorial as follows.
+
+```bash
+sudo systemctl enable prometheus		---> X (Not used inside containers)
+sudo systemctl enable prometheus-node-exporter	---> X
+sudo systemctl start prometheus-node-exporter	---> service prometheus-node-exporter start
+sudo systemctl enable prometheus-pushgateway	---> X
+sudo systemctl start prometheus-pushgateway		---> service prometheus-pushgateway start
+sudo systemctl enable prometheus-alertmanager	---> X
+sudo systemctl start prometheus-alertmanager	---> service prometheus-alertmanager start
+sudo systemctl daemon-reload			---> X
+sudo systemctl reload prometheus		---> X
+sudo systemctl start prometheus			---> service prometheus start
+sudo systemctl enable grafana-server		---> X
+sudo systemctl start grafana-server		---> service grafana-server start
+```
+
 ## Step 4: Running the Libra VFN and Validators(outside the container)
 
 If you are installing VFN or Validator on another machine, there is no need to install Docker at all.
