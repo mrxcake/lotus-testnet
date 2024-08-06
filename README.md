@@ -50,7 +50,7 @@ Then, create a `testnet_iplist.txt` file in the home directory (`~/`) of each co
 
 ```bash
 alice	172.17.0.2
-bob		172.17.0.3
+bob	172.17.0.3
 carol	172.17.0.4
 ```
 
