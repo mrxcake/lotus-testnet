@@ -33,7 +33,7 @@ or Option 2, where you download a container with a pre-built image.
 
 ## Step 2(Option-1): Build Binaries with Script
 
-###1. Run Docker Containers
+1. Run Docker Containers
 
 Run the following commands to start the required Docker containers:
 
