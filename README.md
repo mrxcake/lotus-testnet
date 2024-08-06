@@ -33,9 +33,10 @@ or Option 2, where you download a container with a pre-built image.
 
 ## Step 2(Option-1): Build Binaries with Script
 
-	1. Run Docker Containers
+1. Run Docker Containers
 
-	Run the following commands to start the required Docker containers:
+Run the following commands to start the required Docker containers:
+
  ```bash
 mkdir -p alice bob carol
 sudo docker run -d -it --name alice -v /root/alice:/root -p 6180:6180 -p 3000:3000 ubuntu:20.04 /bin/bash
@@ -53,14 +54,14 @@ bob		172.17.0.3
 carol	172.17.0.4
 ```
 
-	2. Download and Execute the Genesis Setup Script(in the Docker container)
+2. Download and Execute the Genesis Setup Script(in the Docker container)
 
-	Execute the following commands inside each container to download and run the genesis setup script:
+Execute the following commands inside each container to download and run the genesis setup script:
 
 ```bash
-	apt update && apt install nano && apt install wget
-	wget -O ~/0l_testnet_genesis_docker.sh https://github.com/AlanYoon71/OpenLibra_Testnet/raw/main/0l_testnet_genesis_docker.sh \
-	&& chmod +x ~/0l_testnet_genesis_docker.sh && ./0l_testnet_genesis_docker.sh
+apt update && apt install nano && apt install wget
+wget -O ~/0l_testnet_genesis_docker.sh https://github.com/AlanYoon71/OpenLibra_Testnet/raw/main/0l_testnet_genesis_docker.sh \
+&& chmod +x ~/0l_testnet_genesis_docker.sh && ./0l_testnet_genesis_docker.sh
 ```
 
 After running the script and reaching the completion stage, if you're in the Docker container `alice`,
@@ -68,36 +69,36 @@ you should enter the current server's IP address when prompted for the VFN IP.
 The VFN will be installed at the host level outside the container and connected to container `alice`.
 If prompted from other Docker containers, simply press Enter.
 
-	3. Running the Libra Validator(in the Docker container)
+3. Running the Libra Validator(in the Docker container)
 
-	Attach Docker containers, start a `tmux` session and run the `libra node` command.
+Attach Docker containers, start a `tmux` session and run the `libra node` command.
 	
 ```bash
-	apt update && apt install tmux -y
-	tmux new -s node
-	libra node
+apt update && apt install tmux -y
+tmux new -s node
+libra node
 ```
 
 ## Step 2(Option-2): Run Docker Containers with Pre-Built Images
 
-	1. Run Docker Containers Containers
+1. Run Docker Containers Containers
 
-	Run the following commands to start the required Docker containers:
+Run the following commands to start the required Docker containers:
 
 ```bash
-	docker run -d -it --name alice -p 6180:6180 -p 3000:3000 alanyoon/openlibra_testnet_genesis:alice_7.0.2
-	docker run -d -it --name bob alanyoon/openlibra_testnet_genesis:bob_7.0.2
-	docker run -d -it --name carol alanyoon/openlibra_testnet_genesis:carol_7.0.2
+docker run -d -it --name alice -p 6180:6180 -p 3000:3000 alanyoon/openlibra_testnet_genesis:alice_7.0.2
+docker run -d -it --name bob alanyoon/openlibra_testnet_genesis:bob_7.0.2
+docker run -d -it --name carol alanyoon/openlibra_testnet_genesis:carol_7.0.2
 ```
 
-	2. Running the Libra Validator(in the Docker container)
+2. Running the Libra Validator(in the Docker container)
 
-	Attach Docker containers, start a `tmux` session and run the `libra node` command.
+Attach Docker containers, start a `tmux` session and run the `libra node` command.
 	
 ```bash
-	docker attach <docker_container_name>
-	tmux new -s node
-	libra node
+docker attach <docker_container_name>
+tmux new -s node
+libra node
 ```
 
 ## Step 3: Check Syncing and Voting status
@@ -117,24 +118,24 @@ If you are installing VFN or Validator on another machine, there is no need to i
 However, you can still install VFN on a machine with 3 containers installed.
 To do so, execute the following commands outside each container to download and run the post-genesis node setup script:
 
-	1. Firewall setting for VFN:
+1. Firewall setting for VFN:
 
 ```bash
-	sudo ufw allow 6180; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
+sudo ufw allow 6180; sudo ufw allow 6182; sudo ufw allow 8080; sudo ufw allow 3000; 
 ```
 	
-	2. Firewall setting for post-genesis Validator:
+2. Firewall setting for post-genesis Validator:
 
 ```bash
-	sudo ufw allow 6180; sudo ufw allow 6181; sudo ufw allow 3000; 
+sudo ufw allow 6180; sudo ufw allow 6181; sudo ufw allow 3000; 
 ```
 	
-	3. download and run the post-genesis node setup script:
+3. download and run the post-genesis node setup script:
 
 ```bash
-	apt update && apt install nano && apt install wget
-	wget -O ~/0l_testnet_setup.sh https://github.com/AlanYoon71/OpenLibra_Testnet/raw/main/0l_testnet_setup.sh \
-	&& chmod +x ~/0l_testnet_setup.sh && ./0l_testnet_setup.sh
+apt update && apt install nano && apt install wget
+wget -O ~/0l_testnet_setup.sh https://github.com/AlanYoon71/OpenLibra_Testnet/raw/main/0l_testnet_setup.sh \
+&& chmod +x ~/0l_testnet_setup.sh && ./0l_testnet_setup.sh
 ```
 
 At the final stage of the script, if you're in the VFN for `alice`, enter the mnemonic for `alice`,
