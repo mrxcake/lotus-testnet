@@ -124,7 +124,7 @@ sudo systemctl enable prometheus		---> X (Not used inside containers)
 sudo systemctl enable prometheus-node-exporter	---> X
 sudo systemctl start prometheus-node-exporter	---> service prometheus-node-exporter start
 sudo systemctl enable prometheus-pushgateway	---> X
-sudo systemctl start prometheus-pushgateway		---> service prometheus-pushgateway start
+sudo systemctl start prometheus-pushgateway	---> service prometheus-pushgateway start
 sudo systemctl enable prometheus-alertmanager	---> X
 sudo systemctl start prometheus-alertmanager	---> service prometheus-alertmanager start
 sudo systemctl daemon-reload			---> X
