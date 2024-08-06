@@ -156,6 +156,10 @@ if [[ -z $vfn_ip ]]; then
     echo ""
 else
     echo "  host: $vfn_ip" >> ~/.libra/operator.yaml
+    if [[ -f ~/.libra/vfn.yaml ]]
+    then
+        sed -i 's/\/ip4\/[^\/]*\/tcp\/6181\/noise-ik\//\/ip4\/172.17.0.2\/tcp\/6181\/noise-ik\//g' ~/.libra/vfn.yaml
+    fi
 fi
 port_update=$(grep "  port:" ~/.libra/operator.yaml)
 port_update=$(echo "$port_update" | sed 's/6180/6182/')
