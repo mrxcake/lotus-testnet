@@ -164,10 +164,12 @@ wget -O ~/0l_testnet_setup.sh https://github.com/AlanYoon71/OpenLibra_Testnet/ra
 At the final stage of the script, if you're in the VFN for `alice`, enter the mnemonic for `alice`,
 the Docker account where the VFN is connected.
 https://github.com/0LNetworkCommunity/libra-framework/raw/921d38b750b6a9529df9f0c7f88f5227bfc6a0de/util/fixtures/mnemonic/alice.mnem
+If you installed VFN outside the container, remember to enter the container `alice`,
+modify `~/.libra/operator.yaml`, and run `libra txs validator update`.
 If you're in the genesis-post validator, enter the mnemonic for your own account. That's all.
    
 Note: 
 If you are a post-genesis Validator participating in the Testnet,
-don't forget to update the URL in `~/.libra/libra-cli-config.yaml` to the IP address of the Testnet VFN.
+don't forget to update the URL in `~/.libra/libra-cli-config.yaml` to the external IP address of the Testnet VFN with 3 containers.
 
 Carpe Diem, Carpe Libra!✊🔆
