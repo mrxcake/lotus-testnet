@@ -12,7 +12,7 @@ This document provides step-by-step instructions to set up a local testnet using
 
 ## Prerequisites
 
-Ensure you have an Ubuntu system (tested on Ubuntu 20.04) and basic familiarity with the terminal.
+Ensure you have an Ubuntu system (tested on Ubuntu 22.04) and basic familiarity with the terminal.
 
 ## Step 1: Install Docker
 
@@ -39,9 +39,9 @@ Run the following commands to start the required Docker containers:
 
 ```bash
 mkdir -p alice bob carol
-sudo docker run -d -it --name alice -v /root/alice:/root -p 6180:6180 -p 3000:3000 ubuntu:20.04 /bin/bash
-sudo docker run -d -it --name bob -v /root/bob:/root ubuntu:20.04 /bin/bash
-sudo docker run -d -it --name carol -v /root/carol:/root ubuntu:20.04 /bin/bash
+sudo docker run -d -it --name alice -v /root/alice:/root -p 6180:6180 -p 3000:3000 ubuntu:22.04 /bin/bash
+sudo docker run -d -it --name bob -v /root/bob:/root ubuntu:22.04 /bin/bash
+sudo docker run -d -it --name carol -v /root/carol:/root ubuntu:22.04 /bin/bash
 ```
 
 Create testnet_iplist.txt for genesis members
