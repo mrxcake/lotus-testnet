@@ -137,9 +137,11 @@ sudo systemctl start grafana-server		---> service grafana-server start
 
 ## Step 4: Running the Libra VFN and Validators(outside the container)
 
-If you are installing VFN or Validator on another machine, there is no need to install Docker at all.
-However, you can still install VFN on a machine with 3 containers installed.
-To do so, execute the following commands outside each container to download and run the post-genesis node setup script:
+If you are installing VFN or Validator on another machine, there's no need to install Docker. 
+However, you can still install VFN on a machine with 3 containers already installed. 
+To do so, execute the following commands outside container to download and run the post-genesis setup script.
+And if you're not the validator who initiated the genesis, you need to replace your genesis files
+with the current Testnet genesis files before starting the node after installation.
 
 1. Firewall setting for VFN(in the genesis machine with 3 containers):
 
