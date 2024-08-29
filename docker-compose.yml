@@ -1,0 +1,46 @@
+x-defaults: &defaults
+  image: "${LOTUS_IMAGE}"
+  env_file:
+    - "./.env"
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "10"
+  volumes:
+    - ./0l_testnet_genesis_docker.sh:/home/lotususer/genesis.sh
+  command: >
+    bash -c "./genesis.sh && libra node"
+
+services:
+
+  alice:
+    <<: *defaults
+    container_name: alice
+    networks:
+      lotus_compose_network:
+        ipv4_address: 172.18.0.2
+    ports:
+      - 6180:6180
+      - 3030:3030
+
+  bob:
+    <<: *defaults
+    container_name: bob
+    networks:
+      lotus_compose_network:
+        ipv4_address: 172.18.0.3
+
+  carol:
+    <<: *defaults
+    container_name: carol
+    networks:
+      lotus_compose_network:
+        ipv4_address: 172.18.0.4
+
+networks:
+  lotus_compose_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16

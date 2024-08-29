@@ -16,72 +16,30 @@ Ensure you have an Ubuntu system (tested on Ubuntu 22.04) and basic familiarity 
 
 ## Step 1: Install Docker
 
-Follow these steps to install Docker if it is not already installed on your system:
-
-```bash
-sudo apt update && sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt update
-sudo apt install docker-ce -y
-```
-
-The `hello-world` message confirms that Docker is installed correctly.
+Please refer to [this](https://docs.docker.com/engine/install/ubuntu/)
 
 Starting from Step 2, you can choose either Option 1, where you build everything inside the container yourself,
 or Option 2, where you download a container with a pre-built image.
 
 ## Step 2(Option-1): Build Binaries with Script
 
-1. Run Docker Containers
+1. Build image
+    ```bash
+      docker build --build-arg GITHUB_TOKEN=<YOUR_GITHUB_TOKEN> . -t lotus-node
+    ```
+2. Create .env file
+    ```bash
+      echo -e "LOTUS_IMAGE='lotus-node'\nCHECK_AND_SKIP=true" > .env
+    ```
+3. Start containers
+   ```bash
+      docker compose up -d
+   ```
 
-Run the following commands to start the required Docker containers:
-
-```bash
-mkdir -p alice bob carol
-sudo docker run -d -it --name alice -v /root/alice:/root -p 6180:6180 -p 3000:3000 ubuntu:22.04 /bin/bash
-sudo docker run -d -it --name bob -v /root/bob:/root ubuntu:22.04 /bin/bash
-sudo docker run -d -it --name carol -v /root/carol:/root ubuntu:22.04 /bin/bash
-```
-
-Create testnet_iplist.txt for genesis members
-Enter each container using the `docker attach <docker_container_name>` command and check the internal IP with `hostname -I`.
-Then, create a `testnet_iplist.txt` file in the home directory (`~/`) of each container as shown below.
-
-```bash
-alice	172.17.0.2
-bob	172.17.0.3
-carol	172.17.0.4
-```
-
-2. Download and Execute the Genesis Setup Script(in the Docker container)
-
-Execute the following commands inside each container to download and run the genesis setup script:
-
-```bash
-apt update && apt install nano && apt install wget
-wget -O ~/0l_testnet_genesis_docker.sh https://github.com/AlanYoon71/OpenLibra_Testnet/raw/main/0l_testnet_genesis_docker.sh \
-&& chmod +x ~/0l_testnet_genesis_docker.sh && ./0l_testnet_genesis_docker.sh
-```
-
-After running the script and reaching the completion stage, if you're in the Docker container `alice`,
-you should enter the current server's IP address when prompted for the VFN IP.
-The VFN will be installed at the host level outside the container and connected to container `alice`.
-If prompted from other Docker containers, simply press Enter.
-
-3. Running the Libra Validator(in the Docker container)
-
-Attach Docker containers, start a `tmux` session and run the `libra node` command.
-	
-```bash
-apt update && apt install tmux -y
-tmux new -s node
-libra node
-```
 
 ## Step 2(Option-2): Run Docker Containers with Pre-Built Images
 
-1. Run Docker Containers Containers
+1. Run Docker Containers
 
 Run the following commands to start the required Docker containers:
 
@@ -174,4 +132,4 @@ Note:
 If you are a post-genesis Validator participating in the Testnet,
 don't forget to update the URL in `~/.libra/libra-cli-config.yaml` to the external IP address of the Testnet VFN with 3 containers.
 
-Carpe Diem, Carpe Libra!✊🔆
+Lotus !✊🪷
