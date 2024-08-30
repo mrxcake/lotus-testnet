@@ -12,6 +12,7 @@ x-defaults: &defaults
     nofile: 500000
   volumes:
     - ./0l_testnet_genesis_docker.sh:/home/lotususer/genesis.sh
+  restart: unless-stopped
   command: >
     bash -c "./genesis.sh && lotus node"
 
