@@ -22,7 +22,7 @@ services:
     container_name: alice
     networks:
       lotus_compose_network:
-        ipv4_address: 172.18.0.2
+        ipv4_address: 173.18.0.2
     ports:
       - 6180:6180
       - 3030:3030
@@ -32,18 +32,18 @@ services:
     container_name: bob
     networks:
       lotus_compose_network:
-        ipv4_address: 172.18.0.3
+        ipv4_address: 173.18.0.3
 
   carol:
     <<: *defaults
     container_name: carol
     networks:
       lotus_compose_network:
-        ipv4_address: 172.18.0.4
+        ipv4_address: 173.18.0.4
 
 networks:
   lotus_compose_network:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.18.0.0/16
+        - subnet: 173.18.0.0/16

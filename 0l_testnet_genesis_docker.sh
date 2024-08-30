@@ -78,9 +78,9 @@ for path in "${paths_to_generate[@]}"; do
   backup_and_create_new "${path}"
 done
 
-ip_list_content="alice    172.18.0.2
-bob      172.18.0.3
-carol    172.18.0.4"
+ip_list_content="alice    173.18.0.2
+bob      173.18.0.3
+carol    173.18.0.4"
 
 echo "${ip_list_content}" > "${TESTNET_IP_LIST_FILE}"
 
