@@ -2,8 +2,6 @@
 ############################################
 FROM debian:bookworm-slim AS toolchain
 
-ARG GITHUB_TOKEN=token
-ENV GITHUB_TOKEN=$GITHUB_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Add .cargo/bin to PATH
@@ -38,12 +36,12 @@ INSTALL_RUST_AND_CARGO_LIBRARIES
 FROM toolchain as source
 
 # Clone given release tag or branch of this repo
-ARG REPO=https://${GITHUB_TOKEN}@github.com/lotuscommunity/lotus.git
+ARG REPO=https://github.com/lotuscommunity/lotus.git
 ARG BRANCH=main
 
 # Add target binaries to PATH
 ENV SOURCE_PATH="/root/lotus" \
-  PATH="/root/libra/target/release:${PATH}"
+  PATH="/root/lotus/target/release:${PATH}"
 
 WORKDIR /root/lotus
 
@@ -59,9 +57,9 @@ FROM source as builder
 
 # Build LOTUS binaries
 RUN RUSTC_WRAPPER=sccache cargo build --release \
-    -p libra \
-    -p libra-genesis-tools \
-    -p libra-framework
+    -p lotus \
+    -p lotus-genesis-tools \
+    -p lotus-framework
 
 
 
@@ -94,9 +92,9 @@ rm -rf /var/lib/apt/lists/*
 INSTALL_PROD_SYSTEM_PREREQUISITES
 
 COPY --from=builder [ \
-    "${SOURCE_PATH}/target/release/libra", \
-    "${SOURCE_PATH}/target/release/libra-genesis-tools", \
-    "${SOURCE_PATH}/target/release/libra-framework", \
+    "${SOURCE_PATH}/target/release/lotus", \
+    "${SOURCE_PATH}/target/release/lotus-genesis-tools", \
+    "${SOURCE_PATH}/target/release/lotus-framework", \
     "${LOTUS_BINS_PATH}/" \
 ]
 RUN rm -rf /root
@@ -112,4 +110,4 @@ COPY --from=builder [ \
 
 USER "${USERNAME}"
 WORKDIR "/home/${USERNAME}"
-CMD ["libra", "node"]
+CMD ["lotus", "node"]
