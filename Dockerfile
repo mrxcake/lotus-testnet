@@ -82,7 +82,7 @@ ENV PATH="${LOTUS_BINS_PATH}:${PATH}"
 # Install system prerequisites
 RUN <<INSTALL_PROD_SYSTEM_PREREQUISITES
 apt update
-apt install -y libssl-dev wget nano htop
+apt install -y libssl-dev wget nano htop curl
 groupadd --gid ${GID} "${USERNAME}"
 useradd --home-dir "/home/${USERNAME}" --create-home \
   --uid ${UID} --gid ${GID} --shell /bin/bash --skel /dev/null "${USERNAME}"

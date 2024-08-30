@@ -25,7 +25,7 @@ or Option 2, where you download a container with a pre-built image.
 
 1. Build image
     ```bash
-      docker build --build-arg GITHUB_TOKEN=<YOUR_GITHUB_TOKEN> . -t lotus-node
+      docker build . -t lotus-node
     ```
 2. Create .env file
     ```bash
