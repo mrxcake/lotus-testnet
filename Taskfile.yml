@@ -1,0 +1,46 @@
+version: '3'
+
+# Define default variables using YAML anchors
+defaults: &defaults
+  vars:
+    CONTAINER_NAMES:
+      sh: |
+        if [ -z "{{.CLI_ARGS}}" ]; then 
+          echo "alice bob carol"; # Default container names if none are provided
+        else 
+          echo "{{.CLI_ARGS}}"; # Use the command-line arguments if provided
+        fi
+
+vars:
+  IMAGE:
+    sh: grep -v '^#' .env | grep -e "LOTUS_IMAGE" | sed -e 's/.*=//'
+
+tasks:
+  build:
+    desc: "Build docker image"
+    cmds:
+      - docker build --tag {{.IMAGE}} .
+
+  run:
+    desc: "Run containers"
+    <<: *defaults
+    cmds:
+      - docker compose up {{.CONTAINER_NAMES}} -d
+
+  logs:
+    desc: "Show logs for a given container"
+    <<: *defaults
+    cmds:
+      - docker logs -f {{.CONTAINER_NAMES}}
+
+  metrics:
+    desc: "Check container metrics"
+    <<: *defaults
+    cmds:
+      - docker exec -it {{.CONTAINER_NAMES}} bash -c "watch -n 2 'echo \"\"; curl -s localhost:9101/metrics | grep \"diem_state_sync_version{\"; echo -e \"\nVote Progress:\"; cat ~/.lotus/data/secure-data.json | jq .safety_data.value.last_voted_round'"
+
+  shell:
+    dec: "Start a shell container mounted to a persona config (.lotus) folder"
+    <<: *defaults
+    cmds:
+      - VOLUME_NAME=lotus-{{.CONTAINER_NAMES}}-data docker compose run -it --rm shell bash

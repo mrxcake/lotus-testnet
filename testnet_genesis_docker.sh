@@ -5,11 +5,12 @@ set -euo pipefail
 CHECK_AND_SKIP="${CHECK_AND_SKIP:-false}"
 
 DOT_CONFIG_PATH="${WORKDIR}/.lotus"
+GENESIS_BLOB="${DOT_CONFIG_PATH}/genesis/genesis.blob"
 TESTNET_IP_LIST_FILE="${WORKDIR}/testnet_iplist.txt"
 STATE_EPOCH_JSON_FILE_NAME="state_epoch_79_ver_33217173.795d.json"
 STATE_EPOCH_JSON_FILE_URL="https://raw.githubusercontent.com/0LNetworkCommunity/v7-hard-fork-ceremony/main/artifacts/${STATE_EPOCH_JSON_FILE_NAME}"
 
-if [ "${CHECK_AND_SKIP}" == "true" ] && [ -e "${DOT_CONFIG_PATH}" ]; then
+if [ "${CHECK_AND_SKIP}" == "true" ] && [ -e "${GENESIS_BLOB}" ]; then
   echo "Skipping genesis configuration..."
   exit 0;
 fi
@@ -52,20 +53,37 @@ function backup_and_create_new() {
     BAK_PATH="${TARGET_PATH}-${CURRENT_DATE_TIME}.bak"
 
     echo "Backing up ${TARGET_PATH} to ${BAK_PATH}"
-    mv -- "${TARGET_PATH}" "${BAK_PATH}"
 
-    if [ -d "${BAK_PATH}" ]; then
-      mkdir -- "${TARGET_PATH}"
+    # Check if TARGET_PATH is a directory
+    if [ -d "${TARGET_PATH}" ]; then
+      echo "${TARGET_PATH} is a directory. Moving its contents."
+      mkdir -p -- "${BAK_PATH}"  # Create backup directory
+
+      # Check if the directory is not empty before moving contents
+      if [ "$(ls -A "${TARGET_PATH}")" ]; then
+        mv -- "${TARGET_PATH}/"* "${BAK_PATH}/" 2>/dev/null # Move contents of directory
+      else
+        echo "${TARGET_PATH} is empty. No contents to move."
+      fi
+
+      mkdir -p -- "${TARGET_PATH}" # Ensure the original directory remains empty
     else
-      touch -- "${TARGET_PATH}"
+      echo "${TARGET_PATH} is a file. Moving the file."
+      mv -- "${TARGET_PATH}" "${BAK_PATH}" # Move the file itself
+      touch -- "${TARGET_PATH}" # Create an empty file in its place
     fi
+
     echo "Created new $( [ -d "${TARGET_PATH}" ] && echo "directory" || echo "file" ) at ${TARGET_PATH}"
   else
+    echo "${TARGET_PATH} does not exist. Creating new."
+    # Path does not exist, create a new empty file or directory
     if [ -d "${TARGET_PATH}" ]; then
-          mkdir -- "${TARGET_PATH}"
-        else
-          touch -- "${TARGET_PATH}"
-        fi
+      echo "Creating directory ${TARGET_PATH}"
+      mkdir -- "${TARGET_PATH}"
+    else
+      echo "Creating file ${TARGET_PATH}"
+      touch -- "${TARGET_PATH}"
+    fi
     echo "Created new $( [ -d "${TARGET_PATH}" ] && echo "directory" || echo "file" ) at ${TARGET_PATH}"
   fi
 }
@@ -122,12 +140,12 @@ port_update=$(echo "$port_update" | sed 's/6180/6182/')
 echo "$port_update" >> ${DOT_CONFIG_PATH}/operator.yaml
 echo "${DOT_CONFIG_PATH}/operator.yaml updated."
 
-cp -f ${DOT_CONFIG_PATH}/validator.yaml ${DOT_CONFIG_PATH}/validator.yaml.bak && sed -i '/^[0-9a-f]\{64\}:$/d; /^[[:space:]]*- \/ip4\/[0-9.]\+\/tcp\/6182\/noise-ik\/0x[0-9a-f]\{64\}\/handshake\/0$/d' ${DOT_CONFIG_PATH}/validator.yaml
-sleep 0.2
-cp ${DOT_CONFIG_PATH}/validator.yaml ${DOT_CONFIG_PATH}/validator.yaml.bak && sed -i '/seed_addrs:/,/seeds:/{ /seed_addrs:/b; /seeds:/b; d; }' ${DOT_CONFIG_PATH}/validator.yaml
-sleep 0.2
-cp ${DOT_CONFIG_PATH}/validator.yaml ${DOT_CONFIG_PATH}/validator.yaml.bak && sed -i '/seed_addrs:/{/seed_addrs: *{}/!{a\      493847429420549694a18a82bc9b1b1ce21948bbf1cd4c5cee9ece0fb8ead50a:\n      - "/ip4/158.247.247.207/tcp/6182/noise-ik/0x493847429420549694a18a82bc9b1b1ce21948bbf1cd4c5cee9ece0fb8ead50a/handshake/0"
-}}' ${DOT_CONFIG_PATH}/validator.yaml
+cp -f ${DOT_CONFIG_PATH}/validator.yaml ${DOT_CONFIG_PATH}/validator.yaml.bak
+sed -i '/^[0-9a-f]\{64\}:$/d; /^[[:space:]]*- \/ip4\/[0-9.]\+\/tcp\/6182\/noise-ik\/0x[0-9a-f]\{64\}\/handshake\/0$/d' ${DOT_CONFIG_PATH}/validator.yaml
+
+sed -i '/seed_addrs:/,/seeds:/{ /seed_addrs:/b; /seeds:/b; d; }' ${DOT_CONFIG_PATH}/validator.yaml
+sed -i '/seed_addrs:$/s/seed_addrs:/seed_addrs: {}/' ${DOT_CONFIG_PATH}/validator.yaml
+
 echo "${DOT_CONFIG_PATH}/validator.yaml updated with testnet seed."
 echo ""
 echo "Done."

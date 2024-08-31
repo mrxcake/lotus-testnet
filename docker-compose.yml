@@ -1,3 +1,4 @@
+########## Defaults #############
 x-defaults: &defaults
   image: "${LOTUS_IMAGE}"
   env_file:
@@ -10,17 +11,26 @@ x-defaults: &defaults
   ulimits:
     nproc: 500000
     nofile: 500000
-  volumes:
-    - ./0l_testnet_genesis_docker.sh:/home/lotususer/genesis.sh
   restart: unless-stopped
-  command: >
-    bash -c "./genesis.sh && lotus node"
+  command: bash -c "./genesis.sh && lotus node"
+
+x-util-defaults: &util-defaults
+  <<: *defaults
+  deploy:
+    replicas: 0  # Prevents the service from starting automatically
+  restart: "no"
+  command: [ "tail", "-f", "/dev/null" ]
+
+##################################
 
 services:
-
+  ########## Main services #############
   alice:
     <<: *defaults
     container_name: alice
+    volumes:
+      - lotus-alice-data:/home/${DOCKER_USERNAME}/.lotus
+      - ./testnet_genesis_docker.sh:/home/${DOCKER_USERNAME}/genesis.sh
     networks:
       lotus_compose_network:
         ipv4_address: 173.18.0.2
@@ -31,6 +41,9 @@ services:
   bob:
     <<: *defaults
     container_name: bob
+    volumes:
+      - lotus-bob-data:/home/${DOCKER_USERNAME}/.lotus
+      - ./testnet_genesis_docker.sh:/home/${DOCKER_USERNAME}/genesis.sh
     networks:
       lotus_compose_network:
         ipv4_address: 173.18.0.3
@@ -38,9 +51,25 @@ services:
   carol:
     <<: *defaults
     container_name: carol
+    volumes:
+      - lotus-carol-data:/home/${DOCKER_USERNAME}/.lotus
+      - ./testnet_genesis_docker.sh:/home/${DOCKER_USERNAME}/genesis.sh
     networks:
       lotus_compose_network:
         ipv4_address: 173.18.0.4
+
+  ########## Utility services #############
+  shell:
+    <<: *util-defaults
+    container_name: lotus-shell
+    volumes:
+      - ${VOLUME_NAME:-lotus-alice-data}:/home/${DOCKER_USERNAME}/.lotus
+      - ./testnet_genesis_docker.sh:/home/${DOCKER_USERNAME}/genesis.sh
+
+volumes:
+  lotus-alice-data:
+  lotus-bob-data:
+  lotus-carol-data:
 
 networks:
   lotus_compose_network:

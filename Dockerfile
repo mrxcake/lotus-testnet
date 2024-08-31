@@ -78,15 +78,16 @@ ENV MRB_PATH="${LOTUS_FRAMEWORK_MRB_RELEASES_PATH}/head.mrb"
 
 # Add LOTUS binaries to PATH
 ENV PATH="${LOTUS_BINS_PATH}:${PATH}"
-
+ENV CONFIG_FOLDER=/home/${USERNAME}/.lotus
 # Install system prerequisites
 RUN <<INSTALL_PROD_SYSTEM_PREREQUISITES
 apt update
-apt install -y libssl-dev wget nano htop curl
-groupadd --gid ${GID} "${USERNAME}"
+apt install -y libssl-dev wget nano htop jq curl watch
+groupadd --gid ${GID} "${USERNAME}" && \
 useradd --home-dir "/home/${USERNAME}" --create-home \
   --uid ${UID} --gid ${GID} --shell /bin/bash --skel /dev/null "${USERNAME}"
-chown --recursive "${USERNAME}" "${LOTUS_BINS_PATH}"
+mkdir -p -- "${CONFIG_FOLDER}"
+chown -R "${USERNAME}:${USERNAME}" "/home/${USERNAME}"
 apt clean
 rm -rf /var/lib/apt/lists/*
 INSTALL_PROD_SYSTEM_PREREQUISITES
@@ -100,8 +101,11 @@ COPY --from=builder [ \
 RUN rm -rf /root
 # Because for testnet, there is a hardcoded generated path during compiling time
 ENV TESTNET_MNEMONIC_FOLDER=/root/lotus/util/fixtures/mnemonic
-RUN mkdir -p -- ${TESTNET_MNEMONIC_FOLDER}  && chmod 777 -- ${TESTNET_MNEMONIC_FOLDER}
-RUN mkdir -p -- ${LOTUS_FRAMEWORK_MRB_RELEASES_PATH} && chmod 777 -- ${LOTUS_FRAMEWORK_MRB_RELEASES_PATH}
+RUN <<SET_FOLDERS_AND_PERMISSIONS
+mkdir -p -- ${TESTNET_MNEMONIC_FOLDER}  && chmod 777 -- ${TESTNET_MNEMONIC_FOLDER}
+mkdir -p -- ${LOTUS_FRAMEWORK_MRB_RELEASES_PATH} && chmod 777 -- ${LOTUS_FRAMEWORK_MRB_RELEASES_PATH}
+SET_FOLDERS_AND_PERMISSIONS
+
 # copy the *.mrb files (needed for genesis)
 COPY --from=builder [ \
     "${SOURCE_PATH}/framework/releases", \
