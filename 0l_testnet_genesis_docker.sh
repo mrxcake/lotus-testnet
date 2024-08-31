@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 : "${WORKDIR:=${HOME}}"
 CHECK_AND_SKIP="${CHECK_AND_SKIP:-false}"
@@ -12,7 +13,6 @@ if [ "${CHECK_AND_SKIP}" == "true" ] && [ -e "${DOT_CONFIG_PATH}" ]; then
   echo "Skipping genesis configuration..."
   exit 0;
 fi
-
 
 echo ""
 # echo "";
@@ -61,11 +61,14 @@ function backup_and_create_new() {
     fi
     echo "Created new $( [ -d "${TARGET_PATH}" ] && echo "directory" || echo "file" ) at ${TARGET_PATH}"
   else
-    echo "Error: ${TARGET_PATH} does not exist."
-    return 1
+    if [ -d "${TARGET_PATH}" ]; then
+          mkdir -- "${TARGET_PATH}"
+        else
+          touch -- "${TARGET_PATH}"
+        fi
+    echo "Created new $( [ -d "${TARGET_PATH}" ] && echo "directory" || echo "file" ) at ${TARGET_PATH}"
   fi
 }
-
 
 echo -e "\e[1m\e[32m3. Generating account config files.\e[0m"
 
@@ -93,14 +96,6 @@ wget https://github.com/lotuscommunity/lotus/raw/921d38b750b6a9529df9f0c7f88f522
 wget https://github.com/lotuscommunity/lotus/raw/921d38b750b6a9529df9f0c7f88f5227bfc6a0de/util/fixtures/mnemonic/bob.mnem -P "${testnet_mnemonic_path}"
 wget https://github.com/lotuscommunity/lotus/raw/921d38b750b6a9529df9f0c7f88f5227bfc6a0de/util/fixtures/mnemonic/carol.mnem -P "${testnet_mnemonic_path}"
 wget https://github.com/lotuscommunity/lotus/raw/921d38b750b6a9529df9f0c7f88f5227bfc6a0de/util/fixtures/mnemonic/dave.mnem -P "${testnet_mnemonic_path}"
-#######
-#echo "${GITHUB_TOKEN}" > github_token.txt
-#rm -rf ~/.lotus/data &> /dev/null
-#mkdir ~/.lotus &> /dev/null; mkdir ~/.lotus/genesis &> /dev/null
-#cp -f ~/github_token.txt ~/.lotus &> /dev/null
-#cp -f ~/testnet_iplist.txt ~/.lotus &> /dev/null
-#######
-
 
 IP=$(hostname -I | awk '{print $1}')
 me=$(awk -v ip="$IP" '$2 == ip {print $1}' ${TESTNET_IP_LIST_FILE})
