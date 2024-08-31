@@ -142,8 +142,9 @@ echo "${DOT_CONFIG_PATH}/operator.yaml updated."
 
 cp -f ${DOT_CONFIG_PATH}/validator.yaml ${DOT_CONFIG_PATH}/validator.yaml.bak
 sed -i '/^[0-9a-f]\{64\}:$/d; /^[[:space:]]*- \/ip4\/[0-9.]\+\/tcp\/6182\/noise-ik\/0x[0-9a-f]\{64\}\/handshake\/0$/d' ${DOT_CONFIG_PATH}/validator.yaml
-
+sleep 0.2
 sed -i '/seed_addrs:/,/seeds:/{ /seed_addrs:/b; /seeds:/b; d; }' ${DOT_CONFIG_PATH}/validator.yaml
+sleep 0.2
 sed -i '/seed_addrs:$/s/seed_addrs:/seed_addrs: {}/' ${DOT_CONFIG_PATH}/validator.yaml
 
 echo "${DOT_CONFIG_PATH}/validator.yaml updated with testnet seed."
