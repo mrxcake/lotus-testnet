@@ -19,7 +19,7 @@ Please refer to:
 
    [Task installation](https://taskfile.dev/installation/) or run the following command:
    ```bash
-   echo 'deb [trusted=yes] https://taskfile.dev/apt/ /' | sudo tee /etc/apt/sources.list.d/taskfile_dev.list > /dev/null && sudo apt update && sudo apt install -y task
+   LATEST_VERSION=$(curl -s https://api.github.com/repos/go-task/task/releases/latest | grep 'tag_name' | cut -d\" -f4) && wget https://github.com/go-task/task/releases/download/${LATEST_VERSION}/task_linux_amd64.tar.gz && tar -xzf task_linux_amd64.tar.gz && sudo mv task /usr/local/bin/ && rm task_linux_amd64.tar.gz
    ```
 
 Starting from Step 2, you can choose either Option 1, where you build everything inside the container yourself,
