@@ -122,13 +122,16 @@ lotus genesis testnet -m "$me" $(awk '{printf "-i %s ", $2}' ${TESTNET_IP_LIST_F
 operator_update=$(grep full_node_network_public_key ${DOT_CONFIG_PATH}/public-keys.yaml)
 sed -i "s/full_node_network_public_key:.*/$operator_update/" ${DOT_CONFIG_PATH}/operator.yaml &> /dev/null
 sed -i 's/~$//' ${DOT_CONFIG_PATH}/operator.yaml &> /dev/null
-echo "If you have VFN now, input your VFN IP address."
-echo "If you don't have VFN yet, just enter."
-echo ""
-read -p "VFN IP address : " vfn_ip
-echo ""
+#############################
+# force to skip reading vfn ip due to docker compose non interactive mode
+vfn_ip=""
+#echo "If you have VFN now, input your VFN IP address."
+#echo "If you don't have VFN yet, just enter."
+#echo ""
+#read -p "VFN IP address : " vfn_ip
+#echo ""
 if [[ -z $vfn_ip ]]; then
-    echo "You need to set up VFN later for 0l network's stability and security."
+    echo "You need to set up VFN later for Lotus network's stability and security."
     ip_update=$(grep "  host:" ${DOT_CONFIG_PATH}/operator.yaml)
     echo "$ip_update" >> ${DOT_CONFIG_PATH}/operator.yaml
     echo ""
@@ -139,7 +142,6 @@ port_update=$(grep "  port:" ${DOT_CONFIG_PATH}/operator.yaml)
 port_update=$(echo "$port_update" | sed 's/6180/6182/')
 echo "$port_update" >> ${DOT_CONFIG_PATH}/operator.yaml
 echo "${DOT_CONFIG_PATH}/operator.yaml updated."
-sleep 3
 cp -f ${DOT_CONFIG_PATH}/validator.yaml ${DOT_CONFIG_PATH}/validator.yaml.bak
 sed -i '/^[0-9a-f]\{64\}:$/d; /^[[:space:]]*- \/ip4\/[0-9.]\+\/tcp\/6182\/noise-ik\/0x[0-9a-f]\{64\}\/handshake\/0$/d' ${DOT_CONFIG_PATH}/validator.yaml
 sleep 0.2
