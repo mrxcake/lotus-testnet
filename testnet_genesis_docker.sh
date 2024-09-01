@@ -139,7 +139,7 @@ port_update=$(grep "  port:" ${DOT_CONFIG_PATH}/operator.yaml)
 port_update=$(echo "$port_update" | sed 's/6180/6182/')
 echo "$port_update" >> ${DOT_CONFIG_PATH}/operator.yaml
 echo "${DOT_CONFIG_PATH}/operator.yaml updated."
-
+sleep 3
 cp -f ${DOT_CONFIG_PATH}/validator.yaml ${DOT_CONFIG_PATH}/validator.yaml.bak
 sed -i '/^[0-9a-f]\{64\}:$/d; /^[[:space:]]*- \/ip4\/[0-9.]\+\/tcp\/6182\/noise-ik\/0x[0-9a-f]\{64\}\/handshake\/0$/d' ${DOT_CONFIG_PATH}/validator.yaml
 sleep 0.2
