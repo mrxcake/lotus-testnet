@@ -37,6 +37,7 @@ services:
     ports:
       - 6180:6180
       - 3030:3030
+      - 127.0.0.1:8080:8080
 
   bob:
     <<: *defaults
@@ -73,6 +74,7 @@ volumes:
 
 networks:
   lotus_compose_network:
+    name: "lotus_compose_network"
     driver: bridge
     ipam:
       config:
