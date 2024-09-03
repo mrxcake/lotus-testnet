@@ -12,7 +12,7 @@ x-defaults: &defaults
     nproc: 500000
     nofile: 500000
   restart: unless-stopped
-  command: bash -c "./genesis.sh && RUST_LOG=info lotus node"
+  command: bash -c "./genesis.sh && lotus node"
 
 x-util-defaults: &util-defaults
   <<: *defaults

@@ -29,7 +29,7 @@ or Option 2, where you download a container with a pre-built image.
 
 1. Create .env
     ```bash
-      echo -e "LOTUS_IMAGE='lotus-node'\nCHECK_AND_SKIP=true\nDOCKER_USERNAME=lotususer" > .env
+      echo -e "LOTUS_IMAGE='lotus-node'\nCHECK_AND_SKIP=true\nDOCKER_USERNAME=lotususer\nRUST_LOG=info" > .env
     ```
 2. Build docker image
     ```bash
