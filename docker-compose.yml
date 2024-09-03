@@ -30,7 +30,7 @@ services:
     container_name: alice
     volumes:
       - lotus-alice-data:/home/${DOCKER_USERNAME}/.lotus
-      - ./testnet_genesis_docker.sh:/home/${DOCKER_USERNAME}/genesis.sh
+      - ./node-genesis.sh:/home/${DOCKER_USERNAME}/genesis.sh
     networks:
       lotus_compose_network:
         ipv4_address: 173.18.0.2
@@ -44,7 +44,7 @@ services:
     container_name: bob
     volumes:
       - lotus-bob-data:/home/${DOCKER_USERNAME}/.lotus
-      - ./testnet_genesis_docker.sh:/home/${DOCKER_USERNAME}/genesis.sh
+      - ./node-genesis.sh:/home/${DOCKER_USERNAME}/genesis.sh
     networks:
       lotus_compose_network:
         ipv4_address: 173.18.0.3
@@ -54,7 +54,7 @@ services:
     container_name: carol
     volumes:
       - lotus-carol-data:/home/${DOCKER_USERNAME}/.lotus
-      - ./testnet_genesis_docker.sh:/home/${DOCKER_USERNAME}/genesis.sh
+      - ./node-genesis.sh:/home/${DOCKER_USERNAME}/genesis.sh
     networks:
       lotus_compose_network:
         ipv4_address: 173.18.0.4
@@ -65,7 +65,7 @@ services:
     container_name: lotus-shell
     volumes:
       - ${VOLUME_NAME:-lotus-alice-data}:/home/${DOCKER_USERNAME}/.lotus
-      - ./testnet_genesis_docker.sh:/home/${DOCKER_USERNAME}/genesis.sh
+      - ./node-genesis.sh:/home/${DOCKER_USERNAME}/genesis.sh
 
 volumes:
   lotus-alice-data:

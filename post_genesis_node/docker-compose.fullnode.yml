@@ -1,0 +1,46 @@
+########## Defaults #############
+x-defaults: &defaults
+  image: "${LOTUS_IMAGE}"
+  env_file:
+    - "./.env"
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "10"
+  command: [
+    "lotus",
+    "node",
+    "--config-path",
+    "/home/${DOCKER_USERNAME}/.lotus/vfn.yaml"
+  ]
+
+##################################
+
+services:
+  fullnode:
+    <<: *defaults
+    container_name: fullnode
+    volumes:
+      - fullnode-data:/home/${DOCKER_USERNAME}/.lotus
+      - ./post-genesis-node-setup.sh:/home/${DOCKER_USERNAME}/setup.sh
+    networks:
+      lotus_compose_network:
+        ipv4_address: 173.18.0.10
+    restart: unless-stopped
+    expose:
+      - 6182 # Public fullnode
+      - 8080 # REST API
+      - 9101 # Validator metrics
+    ports:
+#      - 6181:6181 # it should allow traffic only from validator ip
+      - 6182:6182
+      - 8080:8080
+
+volumes:
+  fullnode-data:
+
+networks:
+  lotus_compose_network:
+    name: "lotus_compose_network"
+    external: true
