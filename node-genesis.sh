@@ -118,7 +118,7 @@ wget https://github.com/lotuscommunity/lotus/raw/921d38b750b6a9529df9f0c7f88f522
 
 IP=$(hostname -I | awk '{print $1}')
 me=$(awk -v ip="$IP" '$2 == ip {print $1}' ${TESTNET_IP_LIST_FILE})
-lotus genesis testnet -m "$me" $(awk '{printf "-i %s ", $2}' ${TESTNET_IP_LIST_FILE}) --json-legacy ${KEEP_LEGACY_ADDRESS:+--keep-legacy-address} "${DOT_CONFIG_PATH}/${STATE_EPOCH_JSON_FILE_NAME}"
+lotus genesis testnet -m "$me" $(awk '{printf "-i %s ", $2}' ${TESTNET_IP_LIST_FILE}) --json-legacy ${KEEP_LEGACY_ADDRESS:+--keep-legacy-addr} "${DOT_CONFIG_PATH}/${STATE_EPOCH_JSON_FILE_NAME}"
 
 operator_update=$(grep full_node_network_public_key ${DOT_CONFIG_PATH}/public-keys.yaml)
 sed -i "s/full_node_network_public_key:.*/$operator_update/" ${DOT_CONFIG_PATH}/operator.yaml &> /dev/null
