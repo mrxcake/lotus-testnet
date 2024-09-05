@@ -3,7 +3,6 @@ set -euo pipefail
 
 : "${WORKDIR:=${HOME}}"
 CHECK_AND_SKIP="${CHECK_AND_SKIP:-false}"
-KEEP_LEGACY_ADDRESS="${KEEP_LEGACY_ADDRESS:-true}"
 
 
 DOT_CONFIG_PATH="${WORKDIR}/.lotus"
@@ -109,7 +108,6 @@ echo "${ip_list_content}" > "${TESTNET_IP_LIST_FILE}"
 
 
 wget ${STATE_EPOCH_JSON_FILE_URL} -P "${DOT_CONFIG_PATH}"
-
 # "lotus genesis testnet" command expects these mnem files
 testnet_mnemonic_path="/root/lotus/util/fixtures/mnemonic"
 wget https://github.com/lotuscommunity/lotus/raw/921d38b750b6a9529df9f0c7f88f5227bfc6a0de/util/fixtures/mnemonic/alice.mnem -P "${testnet_mnemonic_path}"
@@ -120,8 +118,19 @@ wget https://github.com/lotuscommunity/lotus/raw/921d38b750b6a9529df9f0c7f88f522
 IP=$(hostname -I | awk '{print $1}')
 me=$(awk -v ip="$IP" '$2 == ip {print $1}' ${TESTNET_IP_LIST_FILE})
 
-if [ "${KEEP_LEGACY_ADDRESS}" = "true" ]; then
-  lotus genesis testnet -m "$me" $(awk '{printf "-i %s ", $2}' ${TESTNET_IP_LIST_FILE}) --keep-legacy-addr --json-legacy "${DOT_CONFIG_PATH}/${STATE_EPOCH_JSON_FILE_NAME}"
+personas=("ALICE" "BOB" "CAROL" "DAVE")
+command_args=()
+for persona in "${personas[@]}"; do
+  # Ensures environment variable corresponding to the persona is set and non-empty
+  if [ -n "${!persona+x}" ] && [ -n "${!persona}" ]; then
+    echo "${persona} mnemonic being overridden..."
+    persona_mnem="${!persona}"
+    echo "${persona_mnem}" > "/root/lotus/util/fixtures/mnemonic/${persona,,}.mnem"
+    command_args+=(--keep-legacy-address "${persona,,}")
+  fi
+done
+if [ ${#command_args[@]} -gt 0 ]; then
+  lotus genesis testnet -m "$me" $(awk '{printf "-i %s ", $2}' ${TESTNET_IP_LIST_FILE}) "${command_args[@]}" --json-legacy "${DOT_CONFIG_PATH}/${STATE_EPOCH_JSON_FILE_NAME}"
 else
   lotus genesis testnet -m "$me" $(awk '{printf "-i %s ", $2}' ${TESTNET_IP_LIST_FILE}) --json-legacy "${DOT_CONFIG_PATH}/${STATE_EPOCH_JSON_FILE_NAME}"
 fi
