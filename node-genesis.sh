@@ -9,7 +9,7 @@ DOT_CONFIG_PATH="${WORKDIR}/.lotus"
 GENESIS_BLOB="${DOT_CONFIG_PATH}/genesis/genesis.blob"
 TESTNET_IP_LIST_FILE="${WORKDIR}/testnet_iplist.txt"
 STATE_EPOCH_JSON_FILE_NAME="state_epoch_79_ver_33217173.795d.json"
-STATE_EPOCH_JSON_FILE_URL="https://raw.githubusercontent.com/0LNetworkCommunity/v7-hard-fork-ceremony/main/artifacts/${STATE_EPOCH_JSON_FILE_NAME}"
+STATE_EPOCH_JSON_FILE_URL="https://raw.githubusercontent.com/lotuscommunity/v7-hard-fork-artifacts/refs/heads/main/artifacts/${STATE_EPOCH_JSON_FILE_NAME}"
 
 if [ "${CHECK_AND_SKIP}" == "true" ] && [ -e "${GENESIS_BLOB}" ]; then
   echo "Skipping genesis configuration..."
